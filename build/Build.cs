@@ -18,7 +18,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     EnableGitHubToken = true,
     On = new[] { GitHubActionsTrigger.Push },
     ImportSecrets = new[] { nameof(NewKey) },
-    InvokedTargets = new[] { nameof(Release) })]
+    InvokedTargets = new[] { nameof(IPack.Pack) })]
 class Build : NukeBuild, IHazSolution, IPack, ICompile, IRestore, ICreateGitHubRelease {
     [Parameter, Secret] private string NewKey;
 
