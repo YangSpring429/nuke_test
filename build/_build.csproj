@@ -16,9 +16,6 @@
 	  <PackageReference Include="Nuke.Components" Version="10.1.0" />
       
       <PackageReference Include="GitReleaseManager" Version="0.16.0" />
-      
-      <PackageReference Include="DotnetPackaging.Dmg" Version="10.1.36" />
-      <PackageReference Include="DotnetPackaging.AppImage" Version="10.1.36" />
   </ItemGroup>
 
   <ItemGroup>
