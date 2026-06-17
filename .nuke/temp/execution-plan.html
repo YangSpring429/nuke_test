@@ -198,147 +198,301 @@ window.addEventListener("load",function(){e.contentLoaded()},!1)}).call(e,n(9))}
 
     <script>
 $(document).ready(function() {
-  $("#Check").addClass('highlight');
   $("#Clean").addClass('highlight');
   $("#Restore").addClass('highlight');
   $("#Compile").addClass('highlight');
-  $("#Pack").addClass('highlight');
-  $("#CreateGitHubRelease").addClass('highlight');
-  $("#Check").hover(
-    function() {
-        $("#Check").removeClass('highlight');
-        $("#Clean").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
-    },
-    function() {
-        $("#Check").removeClass('highlight');
-        $("#Check").addClass('highlight');
-        $("#Clean").addClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
-    });
+  $("#Test").addClass('highlight');
+  $("#PublishLinux").addClass('highlight');
+  $("#PackLinux").addClass('highlight');
+  $("#PublishMacOS").addClass('highlight');
+  $("#PublishWindows").addClass('highlight');
+  $("#Finish").addClass('highlight');
   $("#Clean").hover(
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
     },
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
     });
-  $("#Pack").hover(
+  $("#PublishWindows").hover(
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
     },
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
+    });
+  $("#PublishMacOS").hover(
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
+    });
+  $("#PublishLinux").hover(
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
+    });
+  $("#PackLinux").hover(
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
+    });
+  $("#Finish").hover(
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
+    });
+  $("#Test").hover(
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#Test").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
     });
   $("#Compile").hover(
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     },
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
     });
   $("#Restore").hover(
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
+        $("#PublishWindows").removeClass('highlight');
+        $("#PublishMacOS").removeClass('highlight');
+        $("#PublishLinux").removeClass('highlight');
+        $("#PackLinux").removeClass('highlight');
+        $("#Finish").removeClass('highlight');
+        $("#Test").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
     },
     function() {
-        $("#Check").removeClass('highlight');
         $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
-        $("#Check").addClass('highlight');
         $("#Clean").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
-    });
-  $("#CreateGitHubRelease").hover(
-    function() {
-        $("#Check").removeClass('highlight');
-        $("#Clean").removeClass('highlight');
-        $("#Pack").removeClass('highlight');
-        $("#Compile").removeClass('highlight');
-        $("#Restore").removeClass('highlight');
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
-    },
-    function() {
-        $("#CreateGitHubRelease").removeClass('highlight');
-        $("#Check").addClass('highlight');
-        $("#Clean").addClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
-        $("#Pack").addClass('highlight');
-        $("#CreateGitHubRelease").addClass('highlight');
+        $("#Test").addClass('highlight');
+        $("#PublishLinux").addClass('highlight');
+        $("#PackLinux").addClass('highlight');
+        $("#PublishMacOS").addClass('highlight');
+        $("#PublishWindows").addClass('highlight');
+        $("#Finish").addClass('highlight');
     });
 
 });
@@ -384,12 +538,17 @@ $(document).ready(function() {
     
     <div class="mermaid">
 graph LR
-Check --> Clean
 Clean --> Restore
-Pack ==> CreateGitHubRelease
-Compile --> Pack
+PublishWindows --> Finish
+PublishMacOS --> Finish
+PublishLinux --> PackLinux
+PackLinux --> Finish
+Finish
+Test --> PublishWindows
+Test --> PublishMacOS
+Test --> PublishLinux
+Compile --> Test
 Restore --> Compile
-CreateGitHubRelease
 
 
 linkStyle default interpolate basis

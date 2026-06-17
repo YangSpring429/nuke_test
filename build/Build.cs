@@ -1,86 +1,90 @@
+using System.IO.Abstractions;
+using System.Threading.Tasks;
+using DotnetPackaging.AppImage;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.NuGet;
-using Nuke.Components;
-using Octokit;
 using Serilog;
-using System;
-using System.Collections.Generic;
+using Zafiro.DivineBytes;
+using Zafiro.DivineBytes.System.IO;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [GitHubActions("continuous",
     GitHubActionsImage.UbuntuLatest,
-    AutoGenerate = false,
+    AutoGenerate = true,
     PublishArtifacts = true,
     EnableGitHubToken = true,
-    On = new[] { GitHubActionsTrigger.Push },
-    ImportSecrets = new[] { nameof(NewKey) },
-    InvokedTargets = new[] { nameof(IPack.Pack) })]
-class Build : NukeBuild, IHazSolution, IPack, ICompile, IRestore, ICreateGitHubRelease {
-    [Parameter, Secret] private string NewKey;
+    On = [GitHubActionsTrigger.Push],
+    InvokedTargets = [nameof(PublishWindows), nameof(PublishWindows)])]
+public class Build : NukeBuild {
+    [Solution(GenerateProjects = true)] Solution Solution;
+    
+    private readonly AbsolutePath OutputDirectory = RootDirectory / "artifacts";
+    private readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution(GenerateProjects = true)] readonly Solution Solution;
-    Nuke.Common.ProjectModel.Solution IHazSolution.Solution => Solution;
-
-    IEnumerable<AbsolutePath> NuGetPackageFiles
-            => From<IPack>().PackagesDirectory.GlobFiles("*.nupkg");
-
-    private AbsolutePath OutputDirectory => RootDirectory / "artifacts";
-
-    string ICreateGitHubRelease.Name => Solution.nuke_test.GetProperty("Version");
-    bool ICreateGitHubRelease.Prerelease => Solution.nuke_test.GetProperty("Version").Contains("pre", StringComparison.OrdinalIgnoreCase);
-
-    IEnumerable<AbsolutePath> ICreateGitHubRelease.AssetFiles => NuGetPackageFiles;
-
-    public static int Main() => Execute<Build>(x => ((IPack)x).Pack);
-
-    private T From<T>() where T : INukeBuild
-        => (T)(object)this;
-
-    Target Check => _ => _
-       .OnlyWhenDynamic(() => IsServerBuild)
-       .Executes(() => {
-           Log.Information("is match: {value}", NewKey.Equals("hellonuke"));
-       });
+    public static int Main() => Execute<Build>(x => x.Finish);
 
     Target Clean => _ => _
-        .DependsOn(Check)
         .Executes(() => {
             OutputDirectory.CreateOrCleanDirectory();
-            Log.Information("clear over!");
+            Log.Information("Clean up");
         });
 
-    Target IRestore.Restore => _ => _
+    Target Restore => _ => _
         .DependsOn(Clean)
         .Executes(() => {
-            DotNetRestore(s => s.SetProjectFile(Solution));
+            DotNetRestore(s => s
+                .SetProjectFile(Solution.nuke_test_avalonia));
         });
+    
+     Target PublishWindows => _ => _
+         .DependsOn(Restore)
+         .Executes(() => Publish(DotNetRuntimeIdentifier.win_x64), () => Publish(DotNetRuntimeIdentifier.win_x86), () => Publish(DotNetRuntimeIdentifier.win_arm64));
+     
+     Target PublishMacOS => _ => _
+         .DependsOn(Restore)
+         .Executes(() => Publish(DotNetRuntimeIdentifier.osx_x64), () => Publish("osx-arm64"));
+     
+     Target PublishLinux => _ => _
+         .DependsOn(Restore)
+         .Executes(() => Publish(DotNetRuntimeIdentifier.linux_arm64), () => Publish(DotNetRuntimeIdentifier.linux_arm));
 
-    Target ICompile.Compile => _ => _
-        .TryDependsOn<IRestore>()
-        .Executes(() => {
-            DotNetPublish(s => s
-                .SetProject(Solution.nuke_test)
-                .SetConfiguration(Configuration.Release)
-                .SetOutput(OutputDirectory)
-                .EnableNoRestore());
-        });
+     Target InstallTool => _ => _
+         .DependsOn(PublishLinux)
+         .OnlyWhenStatic(() => IsServerBuild)
+         .Executes(() => {
+             DotNetToolInstall(x => x
+                 .SetPackageName("KuiperZone.PupNet")
+                 .EnableGlobal());
 
-    Target IPack.Pack => _ => _
-        .TryDependsOn<ICompile>()
-        .TryTriggers<ICreateGitHubRelease>()
-        .Executes(() => {
-            DotNetPack(x => x
-                .SetProject(Solution.nuke_test)
-                .SetConfiguration(Configuration.Release)
-                .SetOutputDirectory(OutputDirectory)
-                .EnableNoBuild());
-        });
+             ProcessTasks.StartShell("sudo apt install libfuse2 -y")
+                 .AssertWaitForExit();
+         });
 
-    Target ICreateGitHubRelease.CreateGitHubRelease => _ => _
-        .Inherit<ICreateGitHubRelease>()
-        .OnlyWhenStatic(() => IsServerBuild);
-}
+     Target PackLinux => _ => _
+         .DependsOn(InstallTool)
+         .Executes(() =>
+         {
+             
+         });
+
+     Target Finish => _ => _ 
+         .DependsOn(PublishWindows, PublishMacOS, PackLinux)
+         .Executes(() => {
+             Log.Information("Finish");
+         });
+     
+     private void Publish(string runtime) {
+         Log.Information("Publishing {Runtime}", runtime);
+         DotNetPublish(s => s
+             .SetSelfContained(false)
+             .SetPublishSingleFile(true)
+             .SetRuntime(runtime)
+             .SetOutput(OutputDirectory / runtime)
+             .SetProject(Solution.nuke_test_avalonia)
+             .SetConfiguration(Configuration));
+     }
+}// Clean → Restore → Publish → ZipArtifacts → CreateGitHubRelease
