@@ -1,6 +1,3 @@
-using System.IO.Abstractions;
-using System.Threading.Tasks;
-using DotnetPackaging.AppImage;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.IO;
@@ -8,8 +5,7 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Serilog;
-using Zafiro.DivineBytes;
-using Zafiro.DivineBytes.System.IO;
+
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [GitHubActions("continuous",
