@@ -18,7 +18,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     PublishArtifacts = true,
     EnableGitHubToken = true,
     On = [GitHubActionsTrigger.Push],
-    InvokedTargets = [nameof(PublishWindows), nameof(PublishWindows)])]
+    InvokedTargets = [nameof(Finish)])]
 public class Build : NukeBuild {
     [Solution(GenerateProjects = true)] Solution Solution;
     
