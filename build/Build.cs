@@ -62,7 +62,6 @@ public class Build : NukeBuild {
 
      Target PackLinux => _ => _
          .DependsOn(InstallTool)
-         .Partition(2)
          .Executes(
              () => AppImage(DotNetRuntimeIdentifier.linux_arm).AssertWaitForExit(),
              () => AppImage(DotNetRuntimeIdentifier.linux_arm64).AssertWaitForExit());
