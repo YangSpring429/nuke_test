@@ -102,7 +102,7 @@ public class Build : NukeBuild, ICreateRelease {
      /// </summary>
      Target ICreateRelease.CreateGitHubRelease => _ => _
          .Inherit<ICreateRelease>()
-         .DependsOn(PackMacOS, PackWindows);//TODO：Linux
+         .DependsOn(PackMacOS, PackWindows, PackLinux);
      
      Target Finish => _ => _ 
          .TryDependsOn<ICreateRelease>()

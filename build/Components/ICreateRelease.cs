@@ -34,11 +34,11 @@ public interface ICreateRelease : INukeBuild {
             
             var suffix = string.Empty;
             var release = await GetOrCreateRelease();
+            
             var uploadTasks = AssetFiles.Select(async x => {
                 await using var assetFile = File.OpenRead(x);
-                
                 var asset = new ReleaseAssetUpload { 
-                    FileName = string.Format(x.Name, suffix), 
+                    FileName = string.Format(x.Name, $"{Name}{suffix}"), 
                     ContentType = "application/octet-stream", 
                     RawData = assetFile
                 };
@@ -51,7 +51,6 @@ public interface ICreateRelease : INukeBuild {
 
             async Task<Release> GetOrCreateRelease() {
                 try {
-                   
                     if (!GitRepository.IsOnMainBranch()) {
                         var allTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(
                             GitRepository.GetGitHubOwner(),
@@ -63,17 +62,18 @@ public interface ICreateRelease : INukeBuild {
                             .Split("preview");
 
                         var newPreTagNumber = Convert.ToInt32(firstPreTag?[1]) + 1;
-                        suffix = $"v{firstPreTag?[0]}".Equals(Name, StringComparison.OrdinalIgnoreCase) 
+                        suffix = firstPreTag![0].Equals(Name, StringComparison.OrdinalIgnoreCase) 
                             ? $"-preview{newPreTagNumber}" 
                             : "-preview1";
                     }
-                    
+
+                    var name = $"{Name}{suffix}";
                     return await GitHubTasks.GitHubClient.Repository.Release.Create(
                         GitRepository.GetGitHubOwner(),
                         GitRepository.GetGitHubName(),
-                        new NewRelease(Name)
+                        new NewRelease(name)
                         {
-                            Name = $"{Name}{suffix}",
+                            Name = name,
                             Prerelease = !GitRepository.IsOnMainBranch(),
                             Draft = Draft,
                             Body = ""
