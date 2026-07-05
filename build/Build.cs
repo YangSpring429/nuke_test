@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using Components;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -12,6 +12,7 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Components;
 using Serilog;
 using Tasks;
+
 using static Tasks.HachimiPackagingTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
@@ -23,10 +24,8 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
     EnableGitHubToken = true,
     On = [GitHubActionsTrigger.Push],
     InvokedTargets = [nameof(Finish)])]
-public class Build : NukeBuild, ICreateGitHubRelease {
+public class Build : NukeBuild, ICreateRelease {
     [Solution(GenerateProjects = true)] Solution Solution;
-
-    // public GitRepository GitRepository => From<IHazGitRepository>().GitRepository;
     
     private readonly AbsolutePath OutputDirectory = RootDirectory / "artifacts";
     private readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -97,15 +96,16 @@ public class Build : NukeBuild, ICreateGitHubRelease {
          .Executes(
              () => AppBundle("osx-arm64"),
              () => AppBundle(DotNetRuntimeIdentifier.osx_x64));
-     
-     Target ICreateGitHubRelease.CreateGitHubRelease => _ => _
-         .Inherit<ICreateGitHubRelease>()
-         .ProceedAfterFailure()
-         .DependsOn(PackWindows, PackLinux, PackMacOS)
-         .OnlyWhenStatic(() => IsServerBuild);
 
+     /// <summary>
+     /// 
+     /// </summary>
+     Target ICreateRelease.CreateGitHubRelease => _ => _
+         .Inherit<ICreateRelease>()
+         .DependsOn(PackMacOS, PackWindows, PackWindows);
+     
      Target Finish => _ => _ 
-         .TryDependsOn<ICreateGitHubRelease>()
+         .TryDependsOn<ICreateRelease>()
          .Executes(() => {
              Log.Information("Finish");
          });
