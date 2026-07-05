@@ -96,10 +96,7 @@ public class Build : NukeBuild, ICreateRelease {
          .Executes(
              () => AppBundle("osx-arm64"),
              () => AppBundle(DotNetRuntimeIdentifier.osx_x64));
-
-     /// <summary>
-     /// 
-     /// </summary>
+     
      Target ICreateRelease.CreateGitHubRelease => _ => _
          .Inherit<ICreateRelease>()
          .DependsOn(PackMacOS, PackWindows, PackLinux);
