@@ -62,7 +62,7 @@ public interface ICreateRelease : INukeBuild {
                             .Split("preview");
 
                         var newPreTagNumber = Convert.ToInt32(firstPreTag?[1]) + 1;
-                        suffix = firstPreTag![0].Equals(Name, StringComparison.OrdinalIgnoreCase)
+                        suffix = firstPreTag != null && firstPreTag![0].Equals(Name, StringComparison.OrdinalIgnoreCase)
                             ? $"-preview{newPreTagNumber}"
                             : "-preview1";
                     }
