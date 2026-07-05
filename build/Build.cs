@@ -32,7 +32,7 @@ public class Build : NukeBuild, ICreateRelease {
     public string Name => $"v{Version}";
     public string FileNameFormat => Solution.nuke_test_avalonia.Name + "-{0}";
     public string Version => Solution.nuke_test_avalonia.GetProperty("Version");
-    public IEnumerable<AbsolutePath> AssetFiles => OutputDirectory.GetFiles();
+    public IEnumerable<AbsolutePath> AssetFiles => (OutputDirectory / "artifacts").GetFiles();
     
     public static int Main() => Execute<Build>(x => x.Finish);
 
