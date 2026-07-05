@@ -69,6 +69,7 @@ public interface ICreateRelease : INukeBuild {
 
                     var name = $"{Name}{suffix}";
                     Log.Information("Creating {Name}...", name);
+
                     return await GitHubTasks.GitHubClient.Repository.Release.Create(
                         GitRepository.GetGitHubOwner(),
                         GitRepository.GetGitHubName(),
@@ -78,11 +79,10 @@ public interface ICreateRelease : INukeBuild {
                             Draft = Draft,
                             Body = ""
                         });
-                }
-                catch(Exception ex) {
+                } catch (Exception ex) {
                     Log.Error(ex, "Failed to create release!");
-                }
-                catch {
+                    throw;
+                } catch {
                     return await GitHubTasks.GitHubClient.Repository.Release.Get(
                         GitRepository.GetGitHubOwner(),
                         GitRepository.GetGitHubName(),
