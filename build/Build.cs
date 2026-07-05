@@ -43,14 +43,23 @@ public class Build : NukeBuild {
 
      Target PublishWindows => _ => _
          .DependsOn(Clean)
-         .Executes(() => Publish(DotNetRuntimeIdentifier.win_x64), () => Publish(DotNetRuntimeIdentifier.win_x86), () => Publish(DotNetRuntimeIdentifier.win_arm64));
+         .WhenSkipped(DependencyBehavior.Skip)
+         .OnlyWhenDynamic(OperatingSystem.IsLinux)
+         .Executes(
+             () => Publish(DotNetRuntimeIdentifier.win_x64), 
+             () => Publish(DotNetRuntimeIdentifier.win_x86),
+             () => Publish(DotNetRuntimeIdentifier.win_arm64));
      
      Target PublishMacOS => _ => _
          .DependsOn(Clean)
-         .Executes(() => Publish(DotNetRuntimeIdentifier.osx_x64), () => Publish("osx-arm64"));
+         .OnlyWhenDynamic(OperatingSystem.IsMacOS)
+         .Executes(
+             () => Publish(DotNetRuntimeIdentifier.osx_x64), 
+             () => Publish("osx-arm64"));
      
      Target PublishLinux => _ => _
          .DependsOn(Clean)
+         .OnlyWhenDynamic(OperatingSystem.IsLinux)
          .Executes(
              () => Publish(DotNetRuntimeIdentifier.linux_x64), 
              () => Publish(DotNetRuntimeIdentifier.linux_arm), 
