@@ -20,6 +20,7 @@ public interface ICreateRelease : INukeBuild {
     [Parameter] [Secret] string GitHubToken => TryGetValue(() => GitHubToken) ?? GitHubActions.Instance?.Token;
 
     string Name { get; }
+    string FileNameFormat { get; }
     
     bool Draft => false;
 
@@ -29,27 +30,28 @@ public interface ICreateRelease : INukeBuild {
         .Requires(() => GitHubToken)
         .Executes(async () => {
             GitHubTasks.GitHubClient.Credentials = new Credentials(GitHubToken.NotNull());
-
             Log.Information("Starting create release...");
             
+            var suffix = string.Empty;
             var release = await GetOrCreateRelease();
             var uploadTasks = AssetFiles.Select(async x => {
                 await using var assetFile = File.OpenRead(x);
+                
                 var asset = new ReleaseAssetUpload { 
-                    FileName = x.Name, 
+                    FileName = string.Format(x.Name, suffix), 
                     ContentType = "application/octet-stream", 
                     RawData = assetFile
                 };
                 await GitHubTasks.GitHubClient.Repository.Release.UploadAsset(release, asset);
                 Log.Information("{Name} uploaded successfully!", x.Name);
             }).ToArray();
-
+            
             Task.WaitAll(uploadTasks);
             return;
 
             async Task<Release> GetOrCreateRelease() {
                 try {
-                    var suffix = string.Empty;
+                   
                     if (!GitRepository.IsOnMainBranch()) {
                         var allTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(
                             GitRepository.GetGitHubOwner(),

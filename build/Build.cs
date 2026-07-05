@@ -28,8 +28,10 @@ public class Build : NukeBuild, ICreateRelease {
     
     private readonly AbsolutePath OutputDirectory = RootDirectory / "artifacts";
     private readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-    
-    public string Name => $"v{Solution.nuke_test_avalonia.GetProperty("Version")}";
+
+    public string Name => $"v{Version}";
+    public string FileNameFormat => Solution.nuke_test_avalonia.Name + "-{0}";
+    public string Version => Solution.nuke_test_avalonia.GetProperty("Version");
     public IEnumerable<AbsolutePath> AssetFiles => OutputDirectory.GetFiles();
     
     public static int Main() => Execute<Build>(x => x.Finish);
@@ -100,7 +102,7 @@ public class Build : NukeBuild, ICreateRelease {
      /// </summary>
      Target ICreateRelease.CreateGitHubRelease => _ => _
          .Inherit<ICreateRelease>()
-         .DependsOn(PackMacOS, PackLinux, PackWindows);
+         .DependsOn(PackMacOS, PackWindows);//TODO：Linux
      
      Target Finish => _ => _ 
          .TryDependsOn<ICreateRelease>()
@@ -128,7 +130,7 @@ public class Build : NukeBuild, ICreateRelease {
      private void Zip(string runtime) {
          HachimiPackagingPortable(x => x
              .SetSourceDirectory(OutputDirectory / runtime)
-             .SetOutputFile(OutputDirectory / $"{Solution.nuke_test_avalonia.Name}-{runtime}.zip")
+             .SetOutputFile(OutputDirectory / $"{FileNameFormat}-{runtime}.zip")
              .SetRuntime(runtime));
      }
 
@@ -145,7 +147,7 @@ public class Build : NukeBuild, ICreateRelease {
              .SetSourceDirectory(OutputDirectory / runtime)
              .SetAppName(Solution.nuke_test_avalonia.Name)
              .SetDescription("hello appimage")
-             .SetOutputFile(OutputDirectory / $"{Solution.nuke_test_avalonia.Name}-{runtime}.AppImage")
+             .SetOutputFile(OutputDirectory / $"{FileNameFormat}-{runtime}.AppImage")
              .SetIcon(Solution.nuke_test_avalonia.Directory / "Assets" / "icon.png")
              .SetArchitecture(arch)
              .DisableTerminal());
@@ -156,7 +158,7 @@ public class Build : NukeBuild, ICreateRelease {
              .SetDisplayName("Nuke Test App")
              .SetVersion("1.0.0")
              .SetSourceDirectory(OutputDirectory / runtime)
-             .SetOutputFile(OutputDirectory / $"{Solution.nuke_test_avalonia.Name}-{runtime}.zip")
+             .SetOutputFile(OutputDirectory / $"{FileNameFormat}-{runtime}.zip")
              .SetAppName(Solution.nuke_test_avalonia.Name)
              .SetIdentifier("com.lunova.nuketest")
              .SetPrincipalClass("NSApplication")
