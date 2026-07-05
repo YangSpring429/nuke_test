@@ -36,7 +36,7 @@ jobs:
           path: artifacts
           merge_multiple: true
 
-      - name: Run: CreateGitHubRelease
+      - name: 'Run: CreateGitHubRelease'
         run: ./build.cmd CreateGitHubRelease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
