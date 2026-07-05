@@ -99,13 +99,12 @@ public class Build : NukeBuild, ICreateRelease {
          .Executes(
              () => AppBundle("osx-arm64"),
              () => AppBundle(DotNetRuntimeIdentifier.osx_x64));
-     
+
      Target ICreateRelease.CreateGitHubRelease => _ => _
-         .Inherit<ICreateRelease>()
-         .DependsOn(PackMacOS, PackWindows, PackLinux);
+         .Inherit<ICreateRelease>();
      
      Target Finish => _ => _ 
-         .TryDependsOn<ICreateRelease>()
+         .DependsOn(PackMacOS, PackWindows, PackLinux)
          .Executes(() => {
              Log.Information("Finish");
          });
