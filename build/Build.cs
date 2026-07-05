@@ -36,10 +36,6 @@ public class Build : NukeBuild, ICreateGitHubRelease {
 
     Target Clean => _ => _
         .Executes(() => {
-            foreach (var file in OutputDirectory.GetFiles()) {
-                Log.Information("Cleaning {File}", file);
-            }
-            
             OutputDirectory.CreateOrCleanDirectory();
             Log.Information("Clean up");
         });
