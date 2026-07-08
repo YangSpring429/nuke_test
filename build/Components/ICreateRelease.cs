@@ -101,8 +101,6 @@ public partial interface ICreateRelease : INukeBuild {
             async Task<Release> GetOrCreateReleaseAsync(string releaseName) {
                 try {
                     Log.Information("Creating {Name}...", releaseName);
-
-                    
                     
                     return await GitHubTasks.GitHubClient.Repository.Release.Create(
                         GitRepository.GetGitHubOwner(),
