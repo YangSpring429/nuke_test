@@ -154,7 +154,7 @@ public partial interface ICreateRelease : INukeBuild {
     
     private string GetPreviousTag() {
         return GitTasks
-            .Git($"rev-list -n 1 --tags=* HEAD^1")
+            .Git($"describe --tags --abbrev=0 HEAD^")
             .FirstOrDefault().Text;
     }
 

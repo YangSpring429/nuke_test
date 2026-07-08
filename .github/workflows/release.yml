@@ -18,24 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-          fetch-depth: 0
-          
-      - name: Debug git
-        run: |
-          echo "=== tags ==="
-          git tag -l
-
-          echo "=== branches ==="
-          git branch -a
-
-          echo "=== log ==="
-          git log --oneline --decorate -20
-
-          echo "=== describe ==="
-          git describe --tags --abbrev=0 HEAD^ || true
+      - uses: actions/checkout@v6        
         
       - name: Cache
         uses: actions/cache@v4
